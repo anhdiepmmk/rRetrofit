@@ -29,24 +29,23 @@ public class ApiGenerator {
                 .readTimeout(timeOut, TimeUnit.SECONDS)
                 .writeTimeout(timeOut, TimeUnit.SECONDS)
                 .connectTimeout(timeOut, TimeUnit.SECONDS)
-                .build();
-        okHttpClient.interceptors().add(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request.Builder rBuilder = chain.request().newBuilder();
-                for (HeaderEntity headerEntity : mHeaderEntities) {
-                    rBuilder.addHeader(headerEntity.getKey(), headerEntity.getValue());
-                }
-                Request request = rBuilder.build();
-                Response response = chain.proceed(request);
-                MediaType contentType = response.body().contentType();
-                String bodyString = response.body().string();
-                ResponseBody body = ResponseBody.create(contentType, bodyString);
-                LogUtils.d(TAG, "ContentType " + contentType.toString());
-                LogUtils.d(TAG, "Body " + bodyString);
-                return response.newBuilder().body(body).build();
-            }
-        });
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request.Builder rBuilder = chain.request().newBuilder();
+                        for (HeaderEntity headerEntity : mHeaderEntities) {
+                            rBuilder.addHeader(headerEntity.getKey(), headerEntity.getValue());
+                        }
+                        Request request = rBuilder.build();
+                        Response response = chain.proceed(request);
+                        MediaType contentType = response.body().contentType();
+                        String bodyString = response.body().string();
+                        ResponseBody body = ResponseBody.create(contentType, bodyString);
+                        LogUtils.d(TAG, "ContentType " + contentType.toString());
+                        LogUtils.d(TAG, "Body " + bodyString);
+                        return response.newBuilder().body(body).build();
+                    }
+                }).build();
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(host)
                 .addConverterFactory(GsonConverterFactory.create())

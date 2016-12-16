@@ -1,7 +1,7 @@
 package rinlv.com.sample;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
@@ -17,11 +17,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new ApiGenerator("https://api.github.com/", 10).createService(GithubService.class).getRepos("rinlv", new Callback<ArrayList<GitHub>>(new IRequestCallbackListener<ArrayList<GitHub>>() {
+        new ApiGenerator("https://api.github.com/", 10).createService(GithubService.class).getRepo("rinlv").enqueue(new Callback<>(new IRequestCallbackListener<ArrayList<GitHub>>() {
             @Override
             public void success(ArrayList<GitHub> gitHubs) {
                 for (GitHub gitHub : gitHubs) {
-                    LogUtils.d("rinlv", gitHub.toString());
+                    LogUtils.d("github rinlv", gitHub.toString());
                 }
             }
 

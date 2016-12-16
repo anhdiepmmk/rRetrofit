@@ -2,9 +2,9 @@ package rinlv.com.sample;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import rinlv.com.rretrofit.callback.Callback;
 
 /**
  * Created by Rin.LV on 12/16/2016.
@@ -12,5 +12,5 @@ import rinlv.com.rretrofit.callback.Callback;
 
 public interface GithubService {
     @GET("users/{user}/repos")
-    void getRepos(@Path("user") String user, Callback<ArrayList<GitHub>> callback);
+    Call<ArrayList<GitHub>> getRepo(@Path("user") String user);
 }
