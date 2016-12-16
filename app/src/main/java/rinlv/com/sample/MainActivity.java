@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new BaseApi().getApi().createService(GitHubService.class).getRepo("rinlv").enqueue(new Callback<>(new IRequestCallbackListener<ArrayList<GitHub>>() {
+        new BaseApi().createApi().createService(GitHubService.class).getRepo("rinlv").enqueue(new Callback<>(new IRequestCallbackListener<ArrayList<GitHub>>() {
             @Override
             public void success(ArrayList<GitHub> gitHubs) {
                 for (GitHub gitHub : gitHubs) {
