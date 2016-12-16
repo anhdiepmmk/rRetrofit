@@ -15,10 +15,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rinlv.com.rretrofit.models.HeaderEntity;
+import rinlv.com.rretrofit.utils.LogUtils;
 
 /**
  * Created by Rin.LV on 12/16/2016.
@@ -26,14 +26,18 @@ import rinlv.com.rretrofit.models.HeaderEntity;
 
 public class ApiGenerator<T> {
 
-    private Callback<T> mCallback;
+    private static final String TAG = "ApiGenerator";
     private Context mContext;
+    private Retrofit.Builder mBuilder;
 
     public ApiGenerator(Context context) {
         mContext = context;
     }
 
-    public <S> S createService(Class<S> serviceClass, String host, int timeOut, final ArrayList<HeaderEntity> headerEntities, String dateFormat) {
+    public ApiGenerator() {
+    }
+
+    public void newBuidler(String host, int timeOut, final ArrayList<HeaderEntity> headerEntities, String dateFormat) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(timeOut, TimeUnit.SECONDS)
                 .writeTimeout(timeOut, TimeUnit.SECONDS)
@@ -51,16 +55,22 @@ public class ApiGenerator<T> {
                 MediaType contentType = response.body().contentType();
                 String bodyString = response.body().string();
                 ResponseBody body = ResponseBody.create(contentType, bodyString);
+                LogUtils.d(TAG, contentType.toString() + "");
+                LogUtils.d(TAG, "Received response body " + bodyString);
                 return response.newBuilder().body(body).build();
             }
         });
         Gson gson = new GsonBuilder()
                 .setDateFormat(dateFormat)
                 .create();
-        Retrofit.Builder builder = new Retrofit.Builder()
+        mBuilder = new Retrofit.Builder()
                 .baseUrl(host)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient);
-        return builder.build().create(serviceClass);
+    }
+
+
+    public <S> S createService(Class<S> serviceClass) {
+        return mBuilder.build().create(serviceClass);
     }
 }
