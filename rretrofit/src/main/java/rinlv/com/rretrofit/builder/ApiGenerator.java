@@ -28,7 +28,7 @@ public class ApiGenerator<T> {
 
     private static final String TAG = "ApiGenerator";
     private Context mContext;
-    private Retrofit.Builder mBuilder;
+    private Retrofit mRetrofit;
 
     public ApiGenerator(Context context) {
         mContext = context;
@@ -55,22 +55,21 @@ public class ApiGenerator<T> {
                 MediaType contentType = response.body().contentType();
                 String bodyString = response.body().string();
                 ResponseBody body = ResponseBody.create(contentType, bodyString);
-                LogUtils.d(TAG, contentType.toString() + "");
-                LogUtils.d(TAG, "Received response body " + bodyString);
+                LogUtils.d(TAG, "ContentType " + contentType.toString());
+                LogUtils.d(TAG, "Body " + bodyString);
                 return response.newBuilder().body(body).build();
             }
         });
         Gson gson = new GsonBuilder()
                 .setDateFormat(dateFormat)
                 .create();
-        mBuilder = new Retrofit.Builder()
+        mRetrofit = new Retrofit.Builder()
                 .baseUrl(host)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(okHttpClient);
+                .client(okHttpClient).build();
     }
 
-
     public <S> S createService(Class<S> serviceClass) {
-        return mBuilder.build().create(serviceClass);
+        return mRetrofit.create(serviceClass);
     }
 }
