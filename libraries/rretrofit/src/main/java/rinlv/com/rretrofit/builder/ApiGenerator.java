@@ -21,14 +21,15 @@ import rinlv.com.rretrofit.utils.LogUtils;
 
 public class ApiGenerator {
     private static final String TAG = "ApiGenerator";
-    private Retrofit mRetrofit;
     private ArrayList<HeaderEntity> mHeaderEntities = new ArrayList<>();
+    private String mHost;
+    private int mTimeOut;
 
-    private void newBuilder(String host, int timeOut) {
+    private Retrofit newBuilder() {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(timeOut, TimeUnit.SECONDS)
-                .writeTimeout(timeOut, TimeUnit.SECONDS)
-                .connectTimeout(timeOut, TimeUnit.SECONDS)
+                .readTimeout(mTimeOut, TimeUnit.SECONDS)
+                .writeTimeout(mTimeOut, TimeUnit.SECONDS)
+                .connectTimeout(mTimeOut, TimeUnit.SECONDS)
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
@@ -46,22 +47,24 @@ public class ApiGenerator {
                         return response.newBuilder().body(body).build();
                     }
                 }).build();
-        mRetrofit = new Retrofit.Builder()
-                .baseUrl(host)
+        return new Retrofit.Builder()
+                .baseUrl(mHost)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient).build();
     }
 
+    public <S> S createService(Class<S> serviceClass) {
+        return newBuilder().create(serviceClass);
+    }
+
     public ApiGenerator(String host, int timeOut) {
-        newBuilder(host, timeOut);
+        mHost = host;
+        mTimeOut = timeOut;
     }
 
     public ApiGenerator(ArrayList<HeaderEntity> headerEntities, String host, int timeOut) {
         mHeaderEntities = headerEntities;
-        newBuilder(host, timeOut);
-    }
-
-    public <S> S createService(Class<S> serviceClass) {
-        return mRetrofit.create(serviceClass);
+        mHost = host;
+        mTimeOut = timeOut;
     }
 }
