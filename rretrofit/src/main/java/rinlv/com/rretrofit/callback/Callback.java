@@ -1,12 +1,8 @@
 package rinlv.com.rretrofit.callback;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import retrofit2.Call;
 import retrofit2.Response;
 import rinlv.com.rretrofit.interfaces.IRequestCallbackListener;
-import rinlv.com.rretrofit.models.ErrorEntity;
 
 /**
  * Created by Rin.LV on 12/16/2016.
@@ -15,14 +11,6 @@ import rinlv.com.rretrofit.models.ErrorEntity;
 public class Callback<T> implements retrofit2.Callback<T> {
 
     private IRequestCallbackListener<T> mRequestCallbackListener;
-    private HashMap<Integer, String> mErrorCode = new HashMap<>();
-
-    public Callback(IRequestCallbackListener<T> requestCallbackListener, ArrayList<ErrorEntity> errorEntities) {
-        mRequestCallbackListener = requestCallbackListener;
-        for (ErrorEntity errorEntity : errorEntities) {
-            mErrorCode.put(errorEntity.getCode(), errorEntity.getMessage());
-        }
-    }
 
     public Callback(IRequestCallbackListener<T> requestCallbackListener) {
         mRequestCallbackListener = requestCallbackListener;
@@ -33,11 +21,7 @@ public class Callback<T> implements retrofit2.Callback<T> {
         if (response.isSuccessful()) {
             mRequestCallbackListener.success(response.body());
         } else {
-            if (mErrorCode.isEmpty()) {
-                mRequestCallbackListener.failure(response.errorBody().toString());
-            } else {
-                mRequestCallbackListener.failure(mErrorCode.get(response.code()));
-            }
+            mRequestCallbackListener.failure(response.code(), response.errorBody());
         }
     }
 

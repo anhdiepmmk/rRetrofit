@@ -1,5 +1,7 @@
 package rinlv.com.rretrofit.interfaces;
 
+import okhttp3.ResponseBody;
+
 /**
  * Created by Rin.LV on 12/16/2016.
  */
@@ -10,5 +12,5 @@ public interface IRequestCallbackListener<T> {
 
     void failByNoInternet();
 
-    void failure(String message);
+    void failure(int code, ResponseBody errorBody);
 }
