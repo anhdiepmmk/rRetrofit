@@ -1,4 +1,4 @@
-package rinlv.com.rretrofit;
+package rinlv.com.sample;
 
 import org.junit.Test;
 

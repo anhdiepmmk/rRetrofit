@@ -1,4 +1,4 @@
-package rinlv.com.rretrofit;
+package rinlv.com.sample;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

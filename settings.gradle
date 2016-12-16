@@ -1,1 +1,2 @@
 include ':app', ':rretrofit'
+project(':rretrofit').projectDir = new File('libraries/rretrofit')

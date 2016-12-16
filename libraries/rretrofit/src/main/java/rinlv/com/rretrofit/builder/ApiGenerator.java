@@ -1,7 +1,5 @@
 package rinlv.com.rretrofit.builder;
 
-import android.content.Context;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -27,8 +25,16 @@ import rinlv.com.rretrofit.utils.LogUtils;
 public class ApiGenerator {
     private static final String TAG = "ApiGenerator";
     private Retrofit mRetrofit;
+    private ArrayList<HeaderEntity> mHeaderEntities = new ArrayList<>();
 
-    public void newBuidler(String host, int timeOut, final ArrayList<HeaderEntity> headerEntities, String dateFormat) {
+    public ApiGenerator() {
+    }
+
+    public ApiGenerator(ArrayList<HeaderEntity> headerEntities) {
+        mHeaderEntities = headerEntities;
+    }
+
+    public void newBuidler(String host, int timeOut, String dateFormat) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(timeOut, TimeUnit.SECONDS)
                 .writeTimeout(timeOut, TimeUnit.SECONDS)
@@ -38,7 +44,7 @@ public class ApiGenerator {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request.Builder rBuilder = chain.request().newBuilder();
-                for (HeaderEntity headerEntity : headerEntities) {
+                for (HeaderEntity headerEntity : mHeaderEntities) {
                     rBuilder.addHeader(headerEntity.getKey(), headerEntity.getValue());
                 }
                 Request request = rBuilder.build();
