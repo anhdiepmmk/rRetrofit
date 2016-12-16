@@ -1,8 +1,5 @@
 package rinlv.com.rretrofit.builder;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -27,14 +24,7 @@ public class ApiGenerator {
     private Retrofit mRetrofit;
     private ArrayList<HeaderEntity> mHeaderEntities = new ArrayList<>();
 
-    public ApiGenerator() {
-    }
-
-    public ApiGenerator(ArrayList<HeaderEntity> headerEntities) {
-        mHeaderEntities = headerEntities;
-    }
-
-    public void newBuidler(String host, int timeOut, String dateFormat) {
+    private void newBuilder(String host, int timeOut) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(timeOut, TimeUnit.SECONDS)
                 .writeTimeout(timeOut, TimeUnit.SECONDS)
@@ -57,13 +47,19 @@ public class ApiGenerator {
                 return response.newBuilder().body(body).build();
             }
         });
-        Gson gson = new GsonBuilder()
-                .setDateFormat(dateFormat)
-                .create();
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(host)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient).build();
+    }
+
+    public ApiGenerator(String host, int timeOut) {
+        newBuilder(host, timeOut);
+    }
+
+    public ApiGenerator(ArrayList<HeaderEntity> headerEntities, String host, int timeOut) {
+        mHeaderEntities = headerEntities;
+        newBuilder(host, timeOut);
     }
 
     public <S> S createService(Class<S> serviceClass) {
