@@ -24,12 +24,20 @@ public class Callback<T> implements retrofit2.Callback<T> {
         }
     }
 
+    public Callback(IRequestCallbackListener<T> requestCallbackListener) {
+        mRequestCallbackListener = requestCallbackListener;
+    }
+
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
         if (response.isSuccessful()) {
             mRequestCallbackListener.success(response.body());
         } else {
-            mRequestCallbackListener.failure(mErrorCode.get(response.code()));
+            if (mErrorCode.isEmpty()) {
+                mRequestCallbackListener.failure(response.errorBody().toString());
+            } else {
+                mRequestCallbackListener.failure(mErrorCode.get(response.code()));
+            }
         }
     }
 

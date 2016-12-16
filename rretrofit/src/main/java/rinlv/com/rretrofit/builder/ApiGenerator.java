@@ -24,18 +24,9 @@ import rinlv.com.rretrofit.utils.LogUtils;
  * Created by Rin.LV on 12/16/2016.
  */
 
-public class ApiGenerator<T> {
-
+public class ApiGenerator {
     private static final String TAG = "ApiGenerator";
-    private Context mContext;
     private Retrofit mRetrofit;
-
-    public ApiGenerator(Context context) {
-        mContext = context;
-    }
-
-    public ApiGenerator() {
-    }
 
     public void newBuidler(String host, int timeOut, final ArrayList<HeaderEntity> headerEntities, String dateFormat) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
