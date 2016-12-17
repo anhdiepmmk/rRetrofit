@@ -11,7 +11,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rinlv.com.rretrofit.callback.Callback;
 import rinlv.com.rretrofit.interfaces.IApiService;
 import rinlv.com.rretrofit.interfaces.IRequestCallbackListener;
@@ -57,6 +56,10 @@ public class ApiGenerator {
 
     private IApiService createService() {
         return newBuilder().create(IApiService.class);
+    }
+
+    private <S> S createService(Class<S> serviceClass) {
+        return newBuilder().create(serviceClass);
     }
 
     public ApiGenerator(String host, int timeOut) {
