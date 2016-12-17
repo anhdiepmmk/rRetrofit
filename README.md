@@ -6,13 +6,7 @@ Download
 
 Gradle:
 
-```groovy
-repositories {
-        maven {
-            url 'https://dl.bintray.com/hnrinlv/maven/'
-        }
-    }
-    
+```groovy  
 compile 'com.github.rinlv:rretrofit:0.1'
 ```
 
