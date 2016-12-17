@@ -4,6 +4,11 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.1"
 
+    lintOptions {
+        abortOnError false
+        lintConfig file("/lint.xml")
+    }
+
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 25
@@ -30,4 +35,97 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     testCompile 'junit:junit:4.12'
+}
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'rretrofit'
+    bintrayOrg = 'hnrinlv'
+
+    publishedGroupId = 'com.github.rinlv'
+    libraryName = 'rRetrofit'
+    artifact = 'rretrofit'
+
+    libraryDescription = 'Android library base on retrofit'
+
+    siteUrl = 'https://github.com/rinlv/rRetrofit'
+    gitUrl = 'https://github.com/rinlv/rRetrofit.git'
+    githubRepository= 'rinlv/rRetrofit'
+
+    libraryVersion = '0.1'
+
+    developerId = 'rinlv'
+    developerName = 'Rin Luu Van'
+    developerEmail = 'rinlv.hn@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+apply from: 'https://raw.githubusercontent.com/nisrulz/JCenter/master/installv1.gradle'
+
+apply plugin: 'com.jfrog.bintray'
+
+version = libraryVersion
+
+if (project.hasProperty("android")) { // Android libraries
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.srcDirs
+    }
+
+    task javadoc(type: Javadoc) {
+        source = android.sourceSets.main.java.srcDirs
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    }
+} else { // Java libraries
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        userOrg = bintrayOrg
+        licenses = ['Apache-2.0']
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        issueTrackerUrl = siteUrl+'/issues'
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        githubRepo = githubRepository //Optional Github repository
+        githubReleaseNotesFile = 'README.md' //Optional Github readme file
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+            gpg {
+                sign = true //Determines whether to GPG sign the files. The default is false
+                passphrase = properties.getProperty("bintray.gpg.password")
+                //Optional. The passphrase for GPG signing'
+            }
+            vcsTag = libraryVersion
+        }
+    }
 }

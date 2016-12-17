@@ -27,5 +27,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.google.code.gson:gson:2.8.0'
     testCompile 'junit:junit:4.12'
-    compile project(':rretrofit')
+    compile 'com.github.rinlv:rretrofit:0.1'
 }
