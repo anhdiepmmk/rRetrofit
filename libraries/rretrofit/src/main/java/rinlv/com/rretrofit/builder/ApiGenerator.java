@@ -12,8 +12,11 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rinlv.com.rretrofit.callback.Callback;
+import rinlv.com.rretrofit.interfaces.IApiService;
+import rinlv.com.rretrofit.interfaces.IRequestCallbackListener;
 import rinlv.com.rretrofit.models.HeaderEntity;
-import rinlv.com.rretrofit.utils.LogUtils;
+import rinlv.com.rretrofit.utilities.LogUtils;
 
 /**
  * Created by Rin.LV on 12/16/2016.
@@ -49,12 +52,11 @@ public class ApiGenerator {
                 }).build();
         return new Retrofit.Builder()
                 .baseUrl(mHost)
-                .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient).build();
     }
 
-    public <S> S createService(Class<S> serviceClass) {
-        return newBuilder().create(serviceClass);
+    private IApiService createService() {
+        return newBuilder().create(IApiService.class);
     }
 
     public ApiGenerator(String host, int timeOut) {
@@ -66,5 +68,13 @@ public class ApiGenerator {
         mHeaderEntities = headerEntities;
         mHost = host;
         mTimeOut = timeOut;
+    }
+
+    public <T> void get(String url, Class<T> clazz, IRequestCallbackListener<T> mTiRequestCallbackListener) {
+        createService().get(url).enqueue(new Callback<>(clazz, null, mTiRequestCallbackListener));
+    }
+
+    public <T> void getList(String url, Class<T[]> clazzList, IRequestCallbackListener<T> mTiRequestCallbackListener) {
+        createService().get(url).enqueue(new Callback<>(null, clazzList, mTiRequestCallbackListener));
     }
 }

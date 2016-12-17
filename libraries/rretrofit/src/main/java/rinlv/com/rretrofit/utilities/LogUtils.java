@@ -1,4 +1,4 @@
-package rinlv.com.rretrofit.utils;
+package rinlv.com.rretrofit.utilities;
 
 import android.util.Log;
 

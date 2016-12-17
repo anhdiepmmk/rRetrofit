@@ -1,5 +1,7 @@
 package rinlv.com.rretrofit.interfaces;
 
+import java.util.List;
+
 import okhttp3.ResponseBody;
 
 /**
@@ -9,6 +11,8 @@ import okhttp3.ResponseBody;
 public interface IRequestCallbackListener<T> {
 
     void success(T t);
+
+    void success(List<T> tList);
 
     void failByNoInternet();
 
