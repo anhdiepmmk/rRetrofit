@@ -3,6 +3,7 @@ package rinlv.com.sample;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import java.io.IOException;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -15,31 +16,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new BaseApi().createApi().getList("users/rinlv/repos", GitHub[].class, new IRequestCallbackListener<GitHub>() {
-            @Override
-            public void success(GitHub gitHub) {
-
-            }
-
-            @Override
-            public void success(List<GitHub> tList) {
-                for (GitHub gitHub : tList) {
-                    LogUtils.d("github list", gitHub.toString());
-                }
-            }
-
-            @Override
-            public void failByNoInternet() {
-
-            }
-
-            @Override
-            public void failure(int code, ResponseBody errorBody) {
-
-            }
-        });
-
-        new BaseApi().createApi().get("repos/rinlv/rRetrofit", GitHub.class, new IRequestCallbackListener<GitHub>() {
+        new BaseApi().createApi().get("user", GitHub.class, new IRequestCallbackListener<GitHub>() {
             @Override
             public void success(GitHub gitHub) {
                 LogUtils.d("github", gitHub.toString());
@@ -57,7 +34,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void failure(int code, ResponseBody errorBody) {
-
+                try {
+                    LogUtils.d("github", "errorCode = " + code + "; errorBody = " + errorBody.string());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

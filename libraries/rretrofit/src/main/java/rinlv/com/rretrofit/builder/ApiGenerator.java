@@ -11,6 +11,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import rinlv.com.rretrofit.callback.Callback;
 import rinlv.com.rretrofit.interfaces.IApiService;
 import rinlv.com.rretrofit.interfaces.IRequestCallbackListener;
@@ -51,6 +52,7 @@ public class ApiGenerator {
                 }).build();
         return new Retrofit.Builder()
                 .baseUrl(mHost)
+                .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient).build();
     }
 
