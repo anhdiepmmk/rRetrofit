@@ -12,10 +12,15 @@ import rinlv.com.rretrofit.models.HeaderEntity;
 public class BaseApi {
 
     private static final String host = "https://api.github.com/";
+    private static final String fakeHost = "https://jsonplaceholder.typicode.com/";
     private static final int timeOut = 10;
 
     public ApiGenerator createApi() {
         return new ApiGenerator(host, timeOut);
+    }
+
+    public ApiGenerator createApiFake() {
+        return new ApiGenerator(fakeHost, timeOut);
     }
 
     public ApiGenerator createApiWithHeader() {

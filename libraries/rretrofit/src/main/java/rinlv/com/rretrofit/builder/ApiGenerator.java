@@ -16,6 +16,7 @@ import rinlv.com.rretrofit.callback.Callback;
 import rinlv.com.rretrofit.interfaces.IApiService;
 import rinlv.com.rretrofit.interfaces.IRequestCallbackListener;
 import rinlv.com.rretrofit.models.HeaderEntity;
+import rinlv.com.rretrofit.models.PostParameter;
 import rinlv.com.rretrofit.utilities.LogUtils;
 
 /**
@@ -81,5 +82,9 @@ public class ApiGenerator {
 
     public <T> void getList(String url, Class<T[]> clazzList, IRequestCallbackListener<T> mTiRequestCallbackListener) {
         createService().get(url).enqueue(new Callback<>(null, clazzList, mTiRequestCallbackListener));
+    }
+
+    public <T> void post(String url, PostParameter postParameter, Class<T> clazz, IRequestCallbackListener<T> mTiRequestCallbackListener) {
+        createService().post(url, postParameter).enqueue(new Callback<>(clazz, null, mTiRequestCallbackListener));
     }
 }
