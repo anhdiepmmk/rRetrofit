@@ -46,13 +46,13 @@ ext {
     libraryName = 'rRetrofit'
     artifact = 'rretrofit'
 
-    libraryDescription = 'Android library base on retrofit'
+    libraryDescription = 'Update code call api: GET, POST, PUT by generic class'
 
     siteUrl = 'https://github.com/rinlv/rRetrofit'
     gitUrl = 'https://github.com/rinlv/rRetrofit.git'
     githubRepository= 'rinlv/rRetrofit'
 
-    libraryVersion = '0.1'
+    libraryVersion = '0.2'
 
     developerId = 'rinlv'
     developerName = 'Rin Luu Van'
