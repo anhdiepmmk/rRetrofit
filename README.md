@@ -1,5 +1,5 @@
 # rRetrofit
-Library base on Retrofit 2.2.0
+Library base on Retrofit 2.2.0 helping generate code connect with api support: GET, POST, PUT
 
 Download
 --------
