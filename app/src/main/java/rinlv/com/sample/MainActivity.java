@@ -42,36 +42,57 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
-        new BaseApi().createApi().getList("users/rinlv/repos", GitHub[].class, new IRequestCallbackListener<GitHub>() {
-            @Override
-            public void success(GitHub gitHub) {
-
-            }
-
-            @Override
-            public void success(List<GitHub> tList) {
-                for (GitHub gitHub : tList) {
-                    LogUtils.d("github", gitHub.toString());
-                }
-            }
-
-            @Override
-            public void failByNoInternet() {
-
-            }
-
-            @Override
-            public void failure(int code, ResponseBody errorBody) {
-                try {
-                    LogUtils.d("github", "errorCode = " + code + "; errorBody = " + errorBody.string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        new BaseApi().createApi().getList("users/rinlv/repos", GitHub[].class, new IRequestCallbackListener<GitHub>() {
+//            @Override
+//            public void success(GitHub gitHub) {
+//
+//            }
+//
+//            @Override
+//            public void success(List<GitHub> tList) {
+//                for (GitHub gitHub : tList) {
+//                    LogUtils.d("github", gitHub.toString());
+//                }
+//            }
+//
+//            @Override
+//            public void failByNoInternet() {
+//
+//            }
+//
+//            @Override
+//            public void failure(int code, ResponseBody errorBody) {
+//                try {
+//                    LogUtils.d("github", "errorCode = " + code + "; errorBody = " + errorBody.string());
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
         JsonPlaceHolder jsonPlaceHolder = new JsonPlaceHolder(1,2, "rinlv", "content postFormBody from rRetrofit");
-        new BaseApi().createApiFake().postFormBody("posts", jsonPlaceHolder, JsonPlaceHolder.class, new IRequestCallbackListener<JsonPlaceHolder>() {
+//        new BaseApi().createApiFake().postFormBody("posts", jsonPlaceHolder, JsonPlaceHolder.class, new IRequestCallbackListener<JsonPlaceHolder>() {
+//            @Override
+//            public void success(JsonPlaceHolder jsonPlaceHolder) {
+//                LogUtils.d("rinlv postFormBody success", jsonPlaceHolder.toString());
+//            }
+//
+//            @Override
+//            public void success(List<JsonPlaceHolder> jsonPlaceHolders) {
+//
+//            }
+//
+//            @Override
+//            public void failByNoInternet() {
+//
+//            }
+//
+//            @Override
+//            public void failure(int code, ResponseBody errorBody) {
+//
+//            }
+//        });
+        new BaseApi().createApiFake().postFormUrlEncoded("posts", jsonPlaceHolder, JsonPlaceHolder.class, new IRequestCallbackListener<JsonPlaceHolder>() {
             @Override
             public void success(JsonPlaceHolder jsonPlaceHolder) {
                 LogUtils.d("rinlv postFormBody success", jsonPlaceHolder.toString());

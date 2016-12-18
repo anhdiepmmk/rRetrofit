@@ -18,6 +18,7 @@ import rinlv.com.rretrofit.interfaces.IRequestCallbackListener;
 import rinlv.com.rretrofit.models.HeaderEntity;
 import rinlv.com.rretrofit.models.PostParameter;
 import rinlv.com.rretrofit.utilities.LogUtils;
+import rinlv.com.rretrofit.utilities.Utils;
 
 /**
  * Created by Rin.LV on 12/16/2016.
@@ -86,5 +87,13 @@ public class ApiGenerator {
 
     public <T> void postFormBody(String url, PostParameter postParameter, Class<T> clazz, IRequestCallbackListener<T> mTiRequestCallbackListener) {
         createService().postFormBody(url, postParameter).enqueue(new Callback<>(clazz, null, mTiRequestCallbackListener));
+    }
+
+    public <T> void postFormUrlEncoded(String url, PostParameter postParameter, Class<T> clazz, IRequestCallbackListener<T> mTiRequestCallbackListener) {
+        createService().postFormUrlEncoded(url, Utils.getFieldMap(postParameter)).enqueue(new Callback<>(clazz, null, mTiRequestCallbackListener));
+    }
+
+    public <T> void putFormUrlEncoded(String url, PostParameter postParameter, Class<T> clazz, IRequestCallbackListener<T> mTiRequestCallbackListener) {
+        createService().putFormUrlEncoded(url, Utils.getFieldMap(postParameter)).enqueue(new Callback<>(clazz, null, mTiRequestCallbackListener));
     }
 }
