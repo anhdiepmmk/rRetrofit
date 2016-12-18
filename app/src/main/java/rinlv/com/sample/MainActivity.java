@@ -70,11 +70,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        JsonPlaceHolder jsonPlaceHolder = new JsonPlaceHolder(1,2, "rinlv", "content post from rRetrofit");
-        new BaseApi().createApiFake().post("posts", jsonPlaceHolder, JsonPlaceHolder.class, new IRequestCallbackListener<JsonPlaceHolder>() {
+        JsonPlaceHolder jsonPlaceHolder = new JsonPlaceHolder(1,2, "rinlv", "content postFormBody from rRetrofit");
+        new BaseApi().createApiFake().postFormBody("posts", jsonPlaceHolder, JsonPlaceHolder.class, new IRequestCallbackListener<JsonPlaceHolder>() {
             @Override
             public void success(JsonPlaceHolder jsonPlaceHolder) {
-                LogUtils.d("rinlv post success", jsonPlaceHolder.toString());
+                LogUtils.d("rinlv postFormBody success", jsonPlaceHolder.toString());
             }
 
             @Override

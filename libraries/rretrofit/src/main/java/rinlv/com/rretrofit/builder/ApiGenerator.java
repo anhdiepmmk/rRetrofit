@@ -84,7 +84,7 @@ public class ApiGenerator {
         createService().get(url).enqueue(new Callback<>(null, clazzList, mTiRequestCallbackListener));
     }
 
-    public <T> void post(String url, PostParameter postParameter, Class<T> clazz, IRequestCallbackListener<T> mTiRequestCallbackListener) {
-        createService().post(url, postParameter).enqueue(new Callback<>(clazz, null, mTiRequestCallbackListener));
+    public <T> void postFormBody(String url, PostParameter postParameter, Class<T> clazz, IRequestCallbackListener<T> mTiRequestCallbackListener) {
+        createService().postFormBody(url, postParameter).enqueue(new Callback<>(clazz, null, mTiRequestCallbackListener));
     }
 }

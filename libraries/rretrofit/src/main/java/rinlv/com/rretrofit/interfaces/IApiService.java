@@ -17,5 +17,5 @@ public interface IApiService {
     Call<ResponseBody> get(@Url String url);
 
     @POST
-    Call<ResponseBody> post(@Url String url, @Body PostParameter postParameter);
+    Call<ResponseBody> postFormBody(@Url String url, @Body PostParameter postParameter);
 }
