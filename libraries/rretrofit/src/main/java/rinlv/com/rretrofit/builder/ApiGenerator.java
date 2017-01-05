@@ -30,7 +30,15 @@ public class ApiGenerator {
     private String mHost;
     private int mTimeOut;
 
-    private Retrofit newBuilder() {
+    private IApiService createService() {
+        return newBuilder().create(IApiService.class);
+    }
+
+    private <S> S createService(Class<S> serviceClass) {
+        return newBuilder().create(serviceClass);
+    }
+
+    public Retrofit newBuilder() {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(mTimeOut, TimeUnit.SECONDS)
                 .writeTimeout(mTimeOut, TimeUnit.SECONDS)
@@ -56,14 +64,6 @@ public class ApiGenerator {
                 .baseUrl(mHost)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient).build();
-    }
-
-    private IApiService createService() {
-        return newBuilder().create(IApiService.class);
-    }
-
-    private <S> S createService(Class<S> serviceClass) {
-        return newBuilder().create(serviceClass);
     }
 
     public ApiGenerator(String host, int timeOut) {
